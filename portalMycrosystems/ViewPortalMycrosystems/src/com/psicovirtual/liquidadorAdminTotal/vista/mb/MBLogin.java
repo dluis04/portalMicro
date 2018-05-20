@@ -39,7 +39,6 @@ public class MBLogin implements Serializable{
 
 			if (dnUsuarios.consultarUsuarioInicio(usuario) == 1) {
 
-				System.out.println("Hola Papi hermoso!! ;)");
 				Usuario logueado= dnUsuarios.consultarDetalleUsuario(usuario.getCedula());
 				Date fecha = new Date();
 				sesion.setUsuario(logueado);
