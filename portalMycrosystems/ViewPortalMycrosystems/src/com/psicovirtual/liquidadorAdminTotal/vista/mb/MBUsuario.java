@@ -35,15 +35,14 @@ public class MBUsuario implements Serializable {
 		token = new Token();
 	}
 
-	public void generarUsuario() {
+	public void generarUsuarios() {
 		try {
 			inicializarDelegados();
 
-			
 			token.setToken(tokenSeguridad.generarToken());
 			token.setActivo(1);
-			
-			System.out.println("Token generado -->> " + tokenSeguridad.generarToken());
+
+			System.out.println("Token generado :D -->> " + tokenSeguridad.generarToken());
 		} catch (Exception e) {
 			System.out.println("Error en el metodo generarUsuario -->> " + e);
 		}
@@ -100,7 +99,6 @@ public class MBUsuario implements Serializable {
 			dNSesionActiva = new DNSesionActiva();
 		}
 	}
-	
 
 	public Token getToken() {
 		return token;
