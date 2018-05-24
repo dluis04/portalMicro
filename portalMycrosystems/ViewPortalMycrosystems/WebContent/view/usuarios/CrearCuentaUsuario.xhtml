@@ -16,6 +16,12 @@
 					ajax="false" action="#{MBUsuario.generarUsuario}" update="tbl"
 					styleClass="btn btn-green" id="generar">
 				</p:commandButton>
+
+
+				<p:commandButton value="Consultar Token" style="width: 220px;"
+					ajax="false" action="#{MBUsuario.consultaTokenTiempoCumplido}" update="tbl"
+					styleClass="btn btn-green" id="consultar">
+				</p:commandButton>
 			</h:panelGrid>
 
 		</div>
