@@ -50,7 +50,6 @@ public class SBUsuario implements SBUsuarioLocal {
 		return retorna;
 	}
 
-
 	@Override
 	public Usuario actualizarUsuario(Usuario update) throws Exception {
 		Usuario x = (Usuario) sbFacade.updateEntity(update);
@@ -62,14 +61,12 @@ public class SBUsuario implements SBUsuarioLocal {
 		String query = "SELECT u FROM Usuario u where u.cedula='" + id + "' ";
 
 		List<Usuario> listUsuario = sbFacade.executeQuery(query, null);
-		Usuario temp = new Usuario();
+		Usuario temp = null;
 
 		for (int i = 0; i < listUsuario.size(); i++) {
 			temp = listUsuario.get(i);
 		}
 		return temp;
 	}
-
-
 
 }

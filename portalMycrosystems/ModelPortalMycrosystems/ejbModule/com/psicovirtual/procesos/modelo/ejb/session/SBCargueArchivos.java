@@ -16,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import com.psicovirtual.estandar.modelo.ejb.session.SBFacadeProcesosLocal;
+import com.psicovirtual.estandar.modelo.utilidades.Email;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.CargueArchivo;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Cliente;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.ClienteUsuario;
@@ -65,8 +66,8 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 
 			int cedula = 0, tipoDocumento = 0, valor = 0, diasMora = 0;
 			String primerNombre = "", segundoNombre = "", primerApellido = "", segundoApellido = "", direccion = "";
-			String ciudad = "", departamento = "", telefono1 = "", telefono2 = "", telefono3 = "", celular = "",
-					correo = "";
+			String ciudad = "", departamento = "", telefono1 = "", telefono2 = "", telefono3 = "", celular = null,
+					correo = null;
 
 			pk.setIdCargue(entity.getIdCargue());
 			cedula = Integer.parseInt(registros.get(i).get(7).toString().trim());
@@ -152,39 +153,60 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				tempUsuario.setTipoUsuario("Usuario"); // Definir tipoUsuario
 				tempUsuario.setFechaCreacion(fechaActualizacion);
 				tempUsuario.setEstado("Activo");
+				
+				Usuario usuarioExiste = sBUsuarioLocal.consultarDetalleUsuario(cedula);
 
-				if (sBUsuarioLocal.crearUsuario(tempUsuario) != null) {
+				if (usuarioExiste != null) {
+					System.out.println("Actualizar clienteUsuario");
+					sBUsuarioLocal.actualizarUsuario(tempUsuario);
+				} else {
+					System.out.println("Registro clienteUsuario Nuevo");
+					if (sBUsuarioLocal.crearUsuario(tempUsuario) != null) {
 
-					ClienteUsuario clienteUsuario = new ClienteUsuario();
-					tempUsuario = sBUsuarioLocal.consultarDetalleUsuario(cedula);
-					generarTokenUsuario(tempUsuario);
+						// Se prepara los datos para el registro del ClienteUsuario
+						ClienteUsuario clienteUsuario = new ClienteUsuario();
+						tempUsuario = sBUsuarioLocal.consultarDetalleUsuario(cedula);
 
-					Cliente clienteTemp = new Cliente();
-					clienteTemp.setIdCliente(2);
-					clienteTemp.setNit(1144168383);
-					clienteTemp.setNombre("DIEGO");
+						Cliente clienteTemp = new Cliente();
+						clienteTemp.setIdCliente(2);
+						clienteTemp.setNit(1144168383);
+						clienteTemp.setNombre("DIEGO");
+						clienteUsuario.setUsuario(tempUsuario);
+						clienteUsuario.setCliente(clienteTemp);
+						clienteUsuario.setTipoDoc(tipoDocumento);
+						clienteUsuario.setCedula(cedula);
+						clienteUsuario.setPrimerNombre(primerNombre);
+						clienteUsuario.setSegundoNombre(segundoNombre);
+						clienteUsuario.setPrimerApellido(primerApellido);
+						clienteUsuario.setSegundoApellido(segundoApellido);
+						clienteUsuario.setDepartamento(departamento);
+						clienteUsuario.setCiudad(ciudad);
+						clienteUsuario.setCorreo(correo);
+						clienteUsuario.setDireccion(direccion);
+						clienteUsuario.setCelular(celular);
+						clienteUsuario.setTelefono1(telefono1);
+						clienteUsuario.setTelefono2(telefono2);
+						clienteUsuario.setTelefono3(telefono3);
+						clienteUsuario.setFechaActualizacion(fechaActualizacion);
+						clienteUsuario.setEstado("ACTIVO");
 
-					clienteUsuario.setUsuario(tempUsuario);
-					clienteUsuario.setCliente(clienteTemp);
-					clienteUsuario.setTipoDoc(tipoDocumento);
-					clienteUsuario.setCedula(cedula);
-					clienteUsuario.setPrimerNombre(primerNombre);
-					clienteUsuario.setSegundoNombre(segundoNombre);
-					clienteUsuario.setPrimerApellido(primerApellido);
-					clienteUsuario.setSegundoApellido(segundoApellido);
-					clienteUsuario.setDepartamento(departamento);
-					clienteUsuario.setCiudad(ciudad);
-					clienteUsuario.setCorreo(correo);
-					clienteUsuario.setDireccion(direccion);
-					clienteUsuario.setCelular(celular);
-					clienteUsuario.setTelefono1(telefono1);
-					clienteUsuario.setTelefono2(telefono2);
-					clienteUsuario.setTelefono3(telefono3);
-					clienteUsuario.setFechaActualizacion(fechaActualizacion);
-					clienteUsuario.setEstado("ACTIVO");
+						// Se genera el token al usuario nuevo
+						generarTokenUsuario(tempUsuario, correo, celular);
 
-					if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
-						System.out.println("Registro exitoso");
+						// Se valida que el clienteUsuario exista antes de realizar el registro
+						ClienteUsuario clienteUsuExiste = sBClienteUsuarioLocal
+								.consultarClienteUsuarioEmpresa(tempUsuario, clienteTemp);
+
+						
+						if (clienteUsuExiste != null) {
+							actualizarClienteUsuario(clienteUsuExiste);
+						} else {
+
+							if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
+								System.out.println("Registro exitoso");
+							}
+
+						}
 					}
 				}
 
@@ -194,7 +216,16 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 
 	}
 
-	public void generarTokenUsuario(Usuario usuario) {
+	public void actualizarClienteUsuario(ClienteUsuario clienteUsu) {
+		try {
+			sBClienteUsuarioLocal.actualizarClieneUsuario(clienteUsu);
+		} catch (Exception e) {
+			System.out.println("Se encuentra problemas en el metodo actualizarClienteUsuario -->> " + e);
+		}
+	}
+
+	public void generarTokenUsuario(Usuario usuario, String correo, String celular) {
+
 		try {
 
 			// Se crea la fecha y hora Inicial
@@ -219,11 +250,45 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				usuario.setContrasena(generarToken());
 				sBUsuarioLocal.actualizarUsuario(usuario);
 				System.out.println("Registro el token");
+
+				if (correo != null) {
+					enviarCorreoConToken(token.getToken(), correo);
+				} else {
+					if (celular != null) {
+						enviarMensajeTexto(token.getToken(), celular);
+					} else {
+						System.out.println("Notificar a la empresa");
+					}
+				}
 			}
 
 		} catch (Exception e) {
 			System.out.println("Error en el metodo generarTokenUsuario -->> " + e);
 		}
+	}
+
+	private void enviarCorreoConToken(String token, String correo) {
+
+		try {
+			Email x = new Email();
+
+			System.out.println("Correo -->> " + correo);
+			System.out.println("Token -->> " + token);
+
+			correo = "diegoluis1993@gmail.com";
+
+			x.sendMailSimples(correo, "Codigo de Acceso",
+					"Cordial Saludo, " + " \n El codigo de acceso a la plataforma MicroSystem es: " + token
+							+ " \n Ingresar en un tiempo de 2 horas sino el codigo se vencera."
+							+ " \n Atentamente la administración");
+		} catch (Exception e) {
+			System.out.println("Error en el metodo enviarCorreoConToken -->> " + e);
+		}
+
+	}
+
+	private void enviarMensajeTexto(String token, String celular) {
+		System.out.println("EnviarMensaje de texto al numero -->> " + celular);
 	}
 
 	public String generarToken() {

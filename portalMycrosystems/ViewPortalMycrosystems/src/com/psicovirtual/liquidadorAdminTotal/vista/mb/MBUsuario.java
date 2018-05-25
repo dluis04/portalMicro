@@ -1,9 +1,7 @@
 package com.psicovirtual.liquidadorAdminTotal.vista.mb;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -12,12 +10,10 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import com.psicovirtual.estandar.vista.mb.MBMensajes;
-import com.psicovirtual.estandar.vista.utilidades.TokenSeguridad;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNSesionActiva;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNToken;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNUsuario;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.SesionesActiva;
-import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Token;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario;
 
 @ManagedBean(name = "MBUsuario")
@@ -30,14 +26,10 @@ public class MBUsuario implements Serializable {
 	DNToken dNToken;
 	private Usuario usuario;
 	private SesionesActiva sesion;
-	private TokenSeguridad tokenSeguridad;
-	private Token token;
 
 	public MBUsuario() {
 		usuario = new Usuario();
 		sesion = new SesionesActiva();
-		tokenSeguridad = new TokenSeguridad();
-		token = new Token();
 	}
 
 	public void consultaTokenTiempoCumplido() {
@@ -47,36 +39,6 @@ public class MBUsuario implements Serializable {
 			dNToken.consultaDesactivarToken(fecha);
 		} catch (Exception e) {
 			System.out.println("Error en el metodo consultaTokenTiempoCumplido -->> " + e);
-		}
-	}
-
-	public void generarTokenUsuario(Usuario usuario) {
-		try {
-			inicializarDelegados();
-
-			// Se crea la fecha y hora Inicial
-			Calendar calendar = Calendar.getInstance();
-			Date fechaIniFin = new Date();
-
-			token.setFechaInicio(fechaIniFin);
-
-			// Se configura fecha y hora Fin
-			calendar.setTime(fechaIniFin);
-			calendar.add(Calendar.MINUTE, 0); // Colocar en configuracion
-			calendar.add(Calendar.HOUR, 3); // Colocar en configuracion
-			fechaIniFin = calendar.getTime();
-
-			token.setUsuario(usuario);
-			token.setFechaFin(fechaIniFin);
-			token.setToken(tokenSeguridad.generarToken());
-			token.setActivo(1);
-
-			if (dNToken.registrarToken(token) != null) {
-				System.out.println("Registro el token");
-			}
-
-		} catch (Exception e) {
-			System.out.println("Error en el metodo generarTokenUsuario -->> " + e);
 		}
 	}
 
@@ -134,14 +96,6 @@ public class MBUsuario implements Serializable {
 		if (dNToken == null) {
 			dNToken = new DNToken();
 		}
-	}
-
-	public Token getToken() {
-		return token;
-	}
-
-	public void setToken(Token token) {
-		this.token = token;
 	}
 
 	public Usuario getUsuario() {

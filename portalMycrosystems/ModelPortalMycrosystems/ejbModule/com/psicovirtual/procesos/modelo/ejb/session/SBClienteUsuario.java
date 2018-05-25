@@ -40,13 +40,17 @@ public class SBClienteUsuario implements SBClienteUsuarioLocal {
 	}
 
 	@Override
-	public List<ClienteUsuario> consultarClienteUsuario(Usuario usuario) throws Exception {
+	public ClienteUsuario consultarClienteUsuarioEmpresa(Usuario usuario, Cliente cliente) throws Exception {
 		String query = "SELECT u FROM ClienteUsuario u where u.usuario.cedula='" + usuario.getCedula() + "'"
-				+ " and u.estado='ACTIVO' ";
+				+ " and u.estado='ACTIVO' and u.cliente.nit='" + cliente.getNit() + "' ";
 
 		List<ClienteUsuario> listClienteUsuario = sbFacade.executeQuery(query, null);
+		ClienteUsuario temp = null;
+		for (ClienteUsuario tempClienteUsu : listClienteUsuario) {
+			temp = tempClienteUsu;
+		}
 
-		return listClienteUsuario;
+		return temp;
 	}
 
 	@Override
