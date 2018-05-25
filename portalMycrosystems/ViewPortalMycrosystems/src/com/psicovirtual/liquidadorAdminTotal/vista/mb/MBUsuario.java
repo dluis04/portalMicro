@@ -50,7 +50,7 @@ public class MBUsuario implements Serializable {
 		}
 	}
 
-	public void generarTokenUsuario() {
+	public void generarTokenUsuario(Usuario usuario) {
 		try {
 			inicializarDelegados();
 
@@ -65,8 +65,6 @@ public class MBUsuario implements Serializable {
 			calendar.add(Calendar.MINUTE, 0); // Colocar en configuracion
 			calendar.add(Calendar.HOUR, 3); // Colocar en configuracion
 			fechaIniFin = calendar.getTime();
-
-			usuario.setIdUsuario(1); // Se debe asignar el usuario
 
 			token.setUsuario(usuario);
 			token.setFechaFin(fechaIniFin);
