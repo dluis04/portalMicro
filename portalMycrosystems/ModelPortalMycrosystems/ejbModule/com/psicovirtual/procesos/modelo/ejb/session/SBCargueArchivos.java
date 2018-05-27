@@ -153,12 +153,12 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				tempUsuario.setTipoUsuario("Usuario"); // Definir tipoUsuario
 				tempUsuario.setFechaCreacion(fechaActualizacion);
 				tempUsuario.setEstado("Activo");
-				
+
 				Usuario usuarioExiste = sBUsuarioLocal.consultarDetalleUsuario(cedula);
 
 				if (usuarioExiste != null) {
 					System.out.println("Actualizar clienteUsuario");
-					sBUsuarioLocal.actualizarUsuario(tempUsuario);
+					sBUsuarioLocal.actualizarUsuario(usuarioExiste);
 				} else {
 					System.out.println("Registro clienteUsuario Nuevo");
 					if (sBUsuarioLocal.crearUsuario(tempUsuario) != null) {
@@ -197,7 +197,6 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 						ClienteUsuario clienteUsuExiste = sBClienteUsuarioLocal
 								.consultarClienteUsuarioEmpresa(tempUsuario, clienteTemp);
 
-						
 						if (clienteUsuExiste != null) {
 							actualizarClienteUsuario(clienteUsuExiste);
 						} else {
