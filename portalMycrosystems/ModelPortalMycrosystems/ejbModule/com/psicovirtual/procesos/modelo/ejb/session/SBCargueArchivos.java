@@ -56,6 +56,12 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 		random = new SecureRandom();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.psicovirtual.procesos.modelo.ejb.session.SBCargueArchivosLocal#
+	 * guardarInformacionCargue(java.util.List, int)
+	 */
 	@Override
 	public void guardarInformacionCargue(List<Vector> registros, int cargueCreado) throws Exception {
 		// Afiliado entity = (Afiliado) sbFacade.insertEntity(param);
@@ -154,57 +160,55 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				tempUsuario.setFechaCreacion(fechaActualizacion);
 				tempUsuario.setEstado("Activo");
 
-				Usuario usuarioExiste = sBUsuarioLocal.consultarDetalleUsuario(cedula);
+				Cliente clienteTemp = new Cliente();
+				clienteTemp.setIdCliente(2);
+				clienteTemp.setNit(1144168383);
+				clienteTemp.setNombre("DIEGO");
 
-				if (usuarioExiste != null) {
-					System.out.println("Actualizar clienteUsuario");
-					sBUsuarioLocal.actualizarUsuario(usuarioExiste);
+				// Se prepara los datos para el registro del ClienteUsuario
+				ClienteUsuario clienteUsuario = new ClienteUsuario();
+
+				clienteUsuario.setCliente(clienteTemp);
+				clienteUsuario.setTipoDoc(tipoDocumento);
+				clienteUsuario.setCedula(cedula);
+				clienteUsuario.setPrimerNombre(primerNombre);
+				clienteUsuario.setSegundoNombre(segundoNombre);
+				clienteUsuario.setPrimerApellido(primerApellido);
+				clienteUsuario.setSegundoApellido(segundoApellido);
+				clienteUsuario.setDepartamento(departamento);
+				clienteUsuario.setCiudad(ciudad);
+				clienteUsuario.setCorreo(correo);
+				clienteUsuario.setDireccion(direccion);
+				clienteUsuario.setCelular(celular);
+				clienteUsuario.setTelefono1(telefono1);
+				clienteUsuario.setTelefono2(telefono2);
+				clienteUsuario.setTelefono3(telefono3);
+				clienteUsuario.setFechaActualizacion(fechaActualizacion);
+				clienteUsuario.setEstado("ACTIVO");
+
+				// Se valida que el clienteUsuario exista antes de realizar el registro
+				ClienteUsuario clienteUsuExiste = sBClienteUsuarioLocal.consultarClienteUsuarioEmpresa(tempUsuario,
+						clienteTemp);
+
+				if (clienteUsuExiste != null) {
+
+					consultarUsuario(clienteUsuario, tempUsuario);
+					clienteUsuario.setIdClienteUsuario(clienteUsuExiste.getIdClienteUsuario());
+					sBClienteUsuarioLocal.actualizarClieneUsuario(clienteUsuario);
+					clienteUsuExiste = null;
+					System.out.println("Actualizo Cliente Usuario");
 				} else {
-					System.out.println("Registro clienteUsuario Nuevo");
+
+					System.out.println("Registro usuario nuevo");
+
 					if (sBUsuarioLocal.crearUsuario(tempUsuario) != null) {
-
-						// Se prepara los datos para el registro del ClienteUsuario
-						ClienteUsuario clienteUsuario = new ClienteUsuario();
-						tempUsuario = sBUsuarioLocal.consultarDetalleUsuario(cedula);
-
-						Cliente clienteTemp = new Cliente();
-						clienteTemp.setIdCliente(2);
-						clienteTemp.setNit(1144168383);
-						clienteTemp.setNombre("DIEGO");
-						clienteUsuario.setUsuario(tempUsuario);
-						clienteUsuario.setCliente(clienteTemp);
-						clienteUsuario.setTipoDoc(tipoDocumento);
-						clienteUsuario.setCedula(cedula);
-						clienteUsuario.setPrimerNombre(primerNombre);
-						clienteUsuario.setSegundoNombre(segundoNombre);
-						clienteUsuario.setPrimerApellido(primerApellido);
-						clienteUsuario.setSegundoApellido(segundoApellido);
-						clienteUsuario.setDepartamento(departamento);
-						clienteUsuario.setCiudad(ciudad);
-						clienteUsuario.setCorreo(correo);
-						clienteUsuario.setDireccion(direccion);
-						clienteUsuario.setCelular(celular);
-						clienteUsuario.setTelefono1(telefono1);
-						clienteUsuario.setTelefono2(telefono2);
-						clienteUsuario.setTelefono3(telefono3);
-						clienteUsuario.setFechaActualizacion(fechaActualizacion);
-						clienteUsuario.setEstado("ACTIVO");
 
 						// Se genera el token al usuario nuevo
 						generarTokenUsuario(tempUsuario, correo, celular);
+						consultarUsuario(clienteUsuario, tempUsuario);
 
-						// Se valida que el clienteUsuario exista antes de realizar el registro
-						ClienteUsuario clienteUsuExiste = sBClienteUsuarioLocal
-								.consultarClienteUsuarioEmpresa(tempUsuario, clienteTemp);
-
-						if (clienteUsuExiste != null) {
-							actualizarClienteUsuario(clienteUsuExiste);
-						} else {
-
-							if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
-								System.out.println("Registro exitoso");
-							}
-
+						if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
+							System.out.println("Registro exitoso");
 						}
 					}
 				}
@@ -215,12 +219,9 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 
 	}
 
-	public void actualizarClienteUsuario(ClienteUsuario clienteUsu) {
-		try {
-			sBClienteUsuarioLocal.actualizarClieneUsuario(clienteUsu);
-		} catch (Exception e) {
-			System.out.println("Se encuentra problemas en el metodo actualizarClienteUsuario -->> " + e);
-		}
+	public void consultarUsuario(ClienteUsuario clienteUsu, Usuario usuario) throws Exception {
+		usuario = sBUsuarioLocal.consultarDetalleUsuario(clienteUsu.getCedula());
+		clienteUsu.setUsuario(usuario);
 	}
 
 	public void generarTokenUsuario(Usuario usuario, String correo, String celular) {
