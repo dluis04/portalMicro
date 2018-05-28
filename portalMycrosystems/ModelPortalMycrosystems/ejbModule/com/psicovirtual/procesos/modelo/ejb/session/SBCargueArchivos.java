@@ -105,7 +105,11 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 			telefono2 = registros.get(i).get(16).toString().trim();
 			telefono3 = registros.get(i).get(17).toString().trim();
 			celular = registros.get(i).get(18).toString().trim();
-			correo = registros.get(i).get(19).toString().trim();
+			try {
+				correo = registros.get(i).get(19).toString().trim();
+			} catch (Exception e) {
+				System.out.println("Exception en correo " + e);
+			}
 
 			dt.setFechaElaboracion(fechaElaboracion);
 			dt.setValor(valor);
@@ -192,7 +196,8 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 
 				if (clienteUsuExiste != null) {
 
-					consultarUsuario(clienteUsuario, tempUsuario);
+					tempUsuario = sBUsuarioLocal.consultarDetalleUsuario(cedula);
+					clienteUsuario.setUsuario(tempUsuario);
 					clienteUsuario.setIdClienteUsuario(clienteUsuExiste.getIdClienteUsuario());
 					sBClienteUsuarioLocal.actualizarClieneUsuario(clienteUsuario);
 					clienteUsuExiste = null;
@@ -200,12 +205,13 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				} else {
 
 					System.out.println("Registro usuario nuevo");
-
 					if (sBUsuarioLocal.crearUsuario(tempUsuario) != null) {
 
 						// Se genera el token al usuario nuevo
+						tempUsuario = sBUsuarioLocal.consultarDetalleUsuario(cedula);
+						clienteUsuario.setUsuario(tempUsuario);
+
 						generarTokenUsuario(tempUsuario, correo, celular);
-						consultarUsuario(clienteUsuario, tempUsuario);
 
 						if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
 							System.out.println("Registro exitoso");
@@ -217,11 +223,6 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 
 		}
 
-	}
-
-	public void consultarUsuario(ClienteUsuario clienteUsu, Usuario usuario) throws Exception {
-		usuario = sBUsuarioLocal.consultarDetalleUsuario(clienteUsu.getCedula());
-		clienteUsu.setUsuario(usuario);
 	}
 
 	public void generarTokenUsuario(Usuario usuario, String correo, String celular) {
@@ -249,8 +250,8 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 			if (sBTokenLocal.registrarToken(token) != null) {
 				usuario.setContrasena(generarToken());
 				sBUsuarioLocal.actualizarUsuario(usuario);
-				System.out.println("Registro el token");
 
+				System.out.println("Registro el token");
 				if (correo != null) {
 					enviarCorreoConToken(token.getToken(), correo);
 				} else {
@@ -261,7 +262,6 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 					}
 				}
 			}
-
 		} catch (Exception e) {
 			System.out.println("Error en el metodo generarTokenUsuario -->> " + e);
 		}
@@ -284,7 +284,6 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 		} catch (Exception e) {
 			System.out.println("Error en el metodo enviarCorreoConToken -->> " + e);
 		}
-
 	}
 
 	private void enviarMensajeTexto(String token, String celular) {
