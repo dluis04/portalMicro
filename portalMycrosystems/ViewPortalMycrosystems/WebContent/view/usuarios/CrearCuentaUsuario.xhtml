@@ -19,8 +19,13 @@
 
 
 				<p:commandButton value="Consultar Token" style="width: 220px;"
-					ajax="false" action="#{MBUsuario.consultaTokenTiempoCumplido}" update="tbl"
-					styleClass="btn btn-green" id="consultar">
+					ajax="false" action="#{MBUsuario.consultaTokenTiempoCumplido}"
+					update="tbl" styleClass="btn btn-green" id="consultar">
+				</p:commandButton>
+
+				<p:commandButton value="Recuperar Contraseña" style="width: 220px;"
+					ajax="false" action="#{MBLogin.recuperarPassword}" update="tbl"
+					styleClass="btn btn-green" id="recuperar">
 				</p:commandButton>
 			</h:panelGrid>
 

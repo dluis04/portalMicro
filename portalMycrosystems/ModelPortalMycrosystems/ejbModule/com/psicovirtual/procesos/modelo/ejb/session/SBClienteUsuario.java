@@ -55,7 +55,18 @@ public class SBClienteUsuario implements SBClienteUsuarioLocal {
 
 	@Override
 	public List<ClienteUsuario> consultarUsuariosByCliente(Cliente cliente) throws Exception {
-		String query = "SELECT u FROM ClienteUsuario u where u.cliente.nit='" + cliente.getNit() + "' ";
+		String query = "SELECT u FROM ClienteUsuario u where u.cliente.nit='" + cliente.getNit()
+				+ "' and u.estado='ACTIVO' ";
+
+		List<ClienteUsuario> listClienteUsuario = sbFacade.executeQuery(query, null);
+
+		return listClienteUsuario;
+	}
+
+	@Override
+	public List<ClienteUsuario> consultarUsuariosByIdUsuario(Usuario usuario) throws Exception {
+		String query = "SELECT u FROM ClienteUsuario u where u.usuario.idUsuario='" + usuario.getIdUsuario()
+				+ "'  and u.estado='ACTIVO' ";
 
 		List<ClienteUsuario> listClienteUsuario = sbFacade.executeQuery(query, null);
 

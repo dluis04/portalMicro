@@ -162,7 +162,7 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				tempUsuario.setTipoDoc(tipoDocumento);
 				tempUsuario.setTipoUsuario("Usuario"); // Definir tipoUsuario
 				tempUsuario.setFechaCreacion(fechaActualizacion);
-				tempUsuario.setEstado("Activo");
+				tempUsuario.setEstado("A");
 
 				Cliente clienteTemp = new Cliente();
 				clienteTemp.setIdCliente(2);

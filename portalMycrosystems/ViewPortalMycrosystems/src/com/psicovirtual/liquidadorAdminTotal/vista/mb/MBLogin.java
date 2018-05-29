@@ -17,7 +17,7 @@ import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario;
 
 @ManagedBean(name = "MBLogin")
 @SessionScoped
-public class MBLogin implements Serializable{
+public class MBLogin implements Serializable {
 
 	MBMensajes mensajes = new MBMensajes();
 	DNUsuario dnUsuarios;
@@ -25,6 +25,7 @@ public class MBLogin implements Serializable{
 
 	private Usuario usuario;
 	private SesionesActiva sesion;
+	private String cedula;
 
 	public MBLogin() {
 		usuario = new Usuario();
@@ -39,31 +40,52 @@ public class MBLogin implements Serializable{
 
 			if (dnUsuarios.consultarUsuarioInicio(usuario) == 1) {
 
-				Usuario logueado= dnUsuarios.consultarDetalleUsuario(usuario.getCedula());
+				Usuario logueado = dnUsuarios.consultarDetalleUsuario(usuario.getCedula());
 				Date fecha = new Date();
 				sesion.setUsuario(logueado);
 				sesion.setFechaIngreso(fecha);
 				sesion.setFechaUltimaAct(fecha);
 
 				dNSesionActiva.registroSesionActiva(sesion);
-				
+
 				FacesContext context = FacesContext.getCurrentInstance();
 				ExternalContext extContext = context.getExternalContext();
-				
+
 				HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 				session.setAttribute("id", usuario.getCedula());
-				
+
 				String url2 = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
 						"/view/gestion/bienvenido.xhtml"));
 				extContext.redirect(url2);
-			}else {
+			} else {
 				mensajes.mostrarMensajeAlerta("Identificacion o correo invalidos");
-			
+
 			}
 
 		} catch (Exception exception) {
 			// TODO: Add catch code
 			exception.printStackTrace();
+		}
+	}
+
+	public void recuperarPassword() {
+		try {
+			
+			inicializarDelegados();
+			
+			Usuario usuarioTemp = dnUsuarios.consultarDetalleUsuario(Integer.parseInt(cedula));
+
+			if (usuarioTemp != null) {
+				if (dnUsuarios.enviarTokenRecuperacionPass(usuarioTemp)) {
+					System.out.println("Contraseña enviada al correo");
+				} else {
+					System.out.println("No se pudo generar el token");
+				}
+			} else {
+				System.out.println("Cedula Invalida");
+			}
+		} catch (Exception e) {
+			System.out.println("Error en el metodo recuperarPassword -->> " + e);
 		}
 	}
 
@@ -73,7 +95,6 @@ public class MBLogin implements Serializable{
 			inicializarDelegados();
 			if (dNSesionActiva.cerrarSesionActivaByUsuario(usuario) == 0) {
 
-				
 				FacesContext context = FacesContext.getCurrentInstance();
 
 				ExternalContext externalContext = context.getExternalContext();
@@ -118,6 +139,14 @@ public class MBLogin implements Serializable{
 		if (dNSesionActiva == null) {
 			dNSesionActiva = new DNSesionActiva();
 		}
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
 	}
 
 	public Usuario getUsuario() {

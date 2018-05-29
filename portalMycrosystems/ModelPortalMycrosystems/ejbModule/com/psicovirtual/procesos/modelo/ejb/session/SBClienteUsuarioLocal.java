@@ -18,5 +18,7 @@ public interface SBClienteUsuarioLocal {
 	public ClienteUsuario consultarClienteUsuarioEmpresa(Usuario usuario,Cliente cliente) throws Exception;
 
 	public List<ClienteUsuario> consultarUsuariosByCliente(Cliente cliente) throws Exception;
+	
+	public List<ClienteUsuario> consultarUsuariosByIdUsuario(Usuario usuario) throws Exception;
 
 }

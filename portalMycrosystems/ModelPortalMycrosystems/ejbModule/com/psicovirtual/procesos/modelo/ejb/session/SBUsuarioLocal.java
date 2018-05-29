@@ -15,4 +15,6 @@ public interface SBUsuarioLocal {
 
 	public int consultarUsuarioInicio(Usuario user) throws Exception;
 
+	public boolean enviarCorreoTokenRecuperacion(Usuario user) throws Exception;
+
 }

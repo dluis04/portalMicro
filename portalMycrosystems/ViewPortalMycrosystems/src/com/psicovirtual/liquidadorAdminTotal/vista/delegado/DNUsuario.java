@@ -36,4 +36,8 @@ public class DNUsuario {
 		return sBUsuarioLocal.consultarUsuarioInicio(user);
 	}
 
+	public boolean enviarTokenRecuperacionPass(Usuario user) throws Exception {
+		return sBUsuarioLocal.enviarCorreoTokenRecuperacion(user);
+	}
+
 }
