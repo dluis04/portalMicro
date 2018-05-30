@@ -43,9 +43,29 @@
 			placeholder="Contraseña"></p:password>
 
 		<div class="checkbox mb-3">
-			<label> <a href="#"> Recordar Contraseña</a>
-			</label>
+			<p:commandLink id="ajax" value="Recordar Contraseña"
+				onstart="PF('statusDialog').show();">
+			</p:commandLink>
 		</div>
+
+		<p:dialog header="Recuperar Contraseña" widgetVar="statusDialog"
+			modal="true" draggable="false" closable="false" resizable="false">
+
+			<p:outputPanel>Ingrese Identificacion</p:outputPanel>
+			<br />
+			<p:inputText id="cc" value="#{MBLogin.cedula}"
+				placeholder="Identificación" autofocus=""></p:inputText>
+			<br />
+			<br />
+			<p:commandButton value="Yes"
+				actionListener="#{MBLogin.recuperarPassword}"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:dialog>
+
+
 		<p:commandButton styleClass="btn btn-lg btn-primary btn-block"
 			update="messages1" value="Iniciar sesión"
 			style=" font-size: 15px !important;"

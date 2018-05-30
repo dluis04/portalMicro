@@ -70,14 +70,14 @@ public class MBLogin implements Serializable {
 
 	public void recuperarPassword() {
 		try {
-			
+
 			inicializarDelegados();
-			
+
 			Usuario usuarioTemp = dnUsuarios.consultarDetalleUsuario(Integer.parseInt(cedula));
 
 			if (usuarioTemp != null) {
 				if (dnUsuarios.enviarTokenRecuperacionPass(usuarioTemp)) {
-					System.out.println("Contraseña enviada al correo");
+					System.out.println("ContraseÃ±a enviada al correo");
 				} else {
 					System.out.println("No se pudo generar el token");
 				}
