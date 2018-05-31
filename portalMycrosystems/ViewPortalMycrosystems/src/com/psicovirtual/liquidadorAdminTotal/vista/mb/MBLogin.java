@@ -9,6 +9,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.event.CloseEvent;
+
 import com.psicovirtual.estandar.vista.mb.MBMensajes;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNSesionActiva;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNUsuario;
@@ -70,19 +72,19 @@ public class MBLogin implements Serializable {
 
 	public void recuperarPassword() {
 		try {
-			
+
 			inicializarDelegados();
-			
+
 			Usuario usuarioTemp = dnUsuarios.consultarDetalleUsuario(Integer.parseInt(cedula));
 
 			if (usuarioTemp != null) {
 				if (dnUsuarios.enviarTokenRecuperacionPass(usuarioTemp)) {
-					System.out.println("Contraseña enviada al correo");
+					mensajes.mostrarMensaje("ContraseÃ±a enviada al correo", 1);
 				} else {
-					System.out.println("No se pudo generar el token");
+					mensajes.mostrarMensaje("No se genero el token, valide con el administrador", 3);
 				}
 			} else {
-				System.out.println("Cedula Invalida");
+				mensajes.mostrarMensaje("Cedula Invalida", 3);
 			}
 		} catch (Exception e) {
 			System.out.println("Error en el metodo recuperarPassword -->> " + e);
