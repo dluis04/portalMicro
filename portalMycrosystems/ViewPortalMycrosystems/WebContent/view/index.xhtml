@@ -24,7 +24,7 @@
 
 <h:body class="text-center">
 	<h:form class="form-signin">
-		<p:growl id="messages1" sticky="true" />
+		<p:growl id="messages1" />
 		<img class="mb-4"
 			src="https://www.mycrosystems.com.co/images/ESLOGAN-V4.png" alt=""
 			width="300" height="90"></img>
@@ -48,8 +48,9 @@
 			</p:commandLink>
 		</div>
 
-		<p:dialog header="Recuperar Contraseña" widgetVar="statusDialog"
-			modal="true" draggable="false" closable="false" resizable="false">
+		<p:dialog id="statusDialog" header="Recuperar Contraseña"
+			widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false">
 
 			<p:outputPanel>Ingrese Identificacion</p:outputPanel>
 			<br />
@@ -59,7 +60,8 @@
 			<br />
 			<p:commandButton value="Yes"
 				actionListener="#{MBLogin.recuperarPassword}"
-				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				styleClass="ui-confirmdialog-yes" update="messages1"
+				icon="ui-icon-check" />
 
 			<p:commandButton value="No" type="button"
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
