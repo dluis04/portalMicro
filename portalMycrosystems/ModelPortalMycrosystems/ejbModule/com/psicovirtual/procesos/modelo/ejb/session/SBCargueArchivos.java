@@ -202,6 +202,7 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 					sBClienteUsuarioLocal.actualizarClieneUsuario(clienteUsuario);
 					clienteUsuExiste = null;
 					System.out.println("Actualizo Cliente Usuario");
+					cargarCompromiso();
 				} else {
 
 					System.out.println("Registro usuario nuevo");
@@ -215,6 +216,7 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 
 						if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
 							System.out.println("Registro exitoso");
+							cargarCompromiso();
 						}
 					}
 				}
@@ -222,7 +224,14 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 			}
 
 		}
+		
+		
+	}
 
+	public void cargarCompromiso() {
+
+		
+		
 	}
 
 	public void generarTokenUsuario(Usuario usuario, String correo, String celular) {
