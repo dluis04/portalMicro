@@ -9,8 +9,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-import org.primefaces.event.CloseEvent;
-
 import com.psicovirtual.estandar.vista.mb.MBMensajes;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNSesionActiva;
 import com.psicovirtual.liquidadorAdminTotal.vista.delegado.DNUsuario;
@@ -24,7 +22,6 @@ public class MBLogin implements Serializable {
 	MBMensajes mensajes = new MBMensajes();
 	DNUsuario dnUsuarios;
 	DNSesionActiva dNSesionActiva;
-
 	private Usuario usuario;
 	private SesionesActiva sesion;
 	private String cedula;
@@ -35,7 +32,7 @@ public class MBLogin implements Serializable {
 	}
 
 	public void navegarControl() {
-
+		System.out.println("Hola");
 		try {
 
 			inicializarDelegados();
@@ -87,7 +84,7 @@ public class MBLogin implements Serializable {
 				mensajes.mostrarMensaje("Cedula Invalida", 3);
 			}
 		} catch (Exception e) {
-			System.out.println("Error en el metodo recuperarPassword -->> " + e);
+			System.out.println("Error en el metodo recuperarPassword --->> " + e);
 		}
 	}
 

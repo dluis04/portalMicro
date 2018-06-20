@@ -14,6 +14,6 @@ public interface SBObligacionLocal {
 
     public Obligacion consultarObligacionByNumeroTitu(String numeroTitular) throws Exception;
 
-    public List<Obligacion> consultarObligacionByClienteUsuario(ClienteUsuario clienteUsu) throws Exception;
+    public Obligacion consultarObligacionByClienteUsuario(ClienteUsuario clienteUsu) throws Exception;
 
 }

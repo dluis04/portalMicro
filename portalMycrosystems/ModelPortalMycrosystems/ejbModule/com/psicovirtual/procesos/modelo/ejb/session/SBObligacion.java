@@ -14,33 +14,51 @@ import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Obligacion;
 @Stateless
 public class SBObligacion implements SBObligacionLocal {
 
-    /**
-     * Default constructor.
-     */
+	/**
+	 * Default constructor.
+	 */
 
-    @EJB
-    SBFacadeProcesosLocal sbFacade;
+	@EJB
+	SBFacadeProcesosLocal sbFacade;
 
-    public SBObligacion() {
-        // TODO Auto-generated constructor stub
-    }
-
-    @Override
-    public Obligacion registrarObligacion(Obligacion nueva) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-	@Override
-	public Obligacion consultarObligacionByNumeroTitu(String numeroTitular) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public SBObligacion() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public List<Obligacion> consultarObligacionByClienteUsuario(ClienteUsuario clienteUsu) throws Exception {
-		// TODO Auto-generated method stub
-return null;
+	public Obligacion registrarObligacion(Obligacion nueva) throws Exception {
+		Obligacion entity = (Obligacion) sbFacade.insertEntity(nueva);
+		return entity;
+	}
+
+	@Override
+	public Obligacion consultarObligacionByNumeroTitu(String numeroTitular) throws Exception {
+		String query = "SELECT u FROM Obligacion u where u.numeroTitular='" + numeroTitular + "'"
+				+ " and u.estado='ACTIVO' ";
+
+		List<Obligacion> listObligacion = sbFacade.executeQuery(query, null);
+		Obligacion temp = null;
+		for (Obligacion tempObligacion : listObligacion) {
+			temp = tempObligacion;
+		}
+
+		return temp;
+	}
+
+	@Override
+	public Obligacion consultarObligacionByClienteUsuario(ClienteUsuario clienteUsu) throws Exception {
+		String query = "SELECT u FROM Obligacion u where u.clienteUsuario.idClienteUsuario='"
+				+ clienteUsu.getIdClienteUsuario() + "'" + " and u.estado='ACTIVO' ";
+
+		List<Obligacion> listObligacion = sbFacade.executeQuery(query, null);
+
+		Obligacion temp = null;
+
+		for (Obligacion tempObligacion : listObligacion) {
+			temp = tempObligacion;
+		}
+
+		return temp;
 	}
 
 }

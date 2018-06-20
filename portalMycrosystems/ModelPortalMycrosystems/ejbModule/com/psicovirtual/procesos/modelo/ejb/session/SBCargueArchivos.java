@@ -22,6 +22,8 @@ import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Cliente;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.ClienteUsuario;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCargue;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCarguePK;
+import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleObligacion;
+import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Obligacion;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Token;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario;
 
@@ -46,6 +48,10 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 	SBClienteLocal sBClienteLocal;
 	@EJB
 	SBClienteUsuarioLocal sBClienteUsuarioLocal;
+	@EJB
+	SBObligacionLocal sBObligacionLocal;
+	@EJB
+	SBDetalleObligacionLocal sBDetalleObligacionLocal;
 	@EJB
 	SBTokenLocal sBTokenLocal;
 
@@ -74,12 +80,19 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 			String primerNombre = "", segundoNombre = "", primerApellido = "", segundoApellido = "", direccion = "";
 			String ciudad = "", departamento = "", telefono1 = "", telefono2 = "", telefono3 = "", celular = null,
 					correo = null;
+			String nombreTitular = "";
+			int cuotaObligacion = 0, valorObligacion = 0;
 
 			pk.setIdCargue(entity.getIdCargue());
 			cedula = Integer.parseInt(registros.get(i).get(7).toString().trim());
 			pk.setCedula(cedula);
 
-			pk.setNumeroTituloValor(registros.get(i).get(0).toString().trim());
+			nombreTitular = registros.get(i).get(0).toString().trim();
+			cuotaObligacion = Integer.parseInt(registros.get(i).get(1).toString().trim());
+			valorObligacion = Integer.parseInt(registros.get(i).get(3).toString().trim());
+
+			pk.setNumeroTituloValor(nombreTitular);
+
 			if (registros.get(i).get(1) != null) {
 				pk.setCuota(Integer.parseInt(registros.get(i).get(1).toString().trim()));
 			}
@@ -215,7 +228,40 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 						generarTokenUsuario(tempUsuario, correo, celular);
 
 						if (sBClienteUsuarioLocal.crearClienteUsuario(clienteUsuario) != null) {
-							System.out.println("Registro exitoso");
+
+							clienteUsuario = sBClienteUsuarioLocal.consultarClienteUsuarioEmpresa(
+									clienteUsuario.getUsuario(), clienteUsuario.getCliente());
+
+							Obligacion obligacion = new Obligacion();
+
+							obligacion.setClienteUsuario(clienteUsuario);
+							obligacion.setNumeroTitular(nombreTitular);
+							obligacion.setEstado("ACTIVO");
+
+							System.out.println("Registro ClienteUsuario exitoso");
+							if (sBObligacionLocal.registrarObligacion(obligacion) != null) {
+
+								obligacion = sBObligacionLocal.consultarObligacionByClienteUsuario(clienteUsuario);
+
+								DetalleObligacion detalleObligacion = new DetalleObligacion();
+
+								detalleObligacion.setObligacion(obligacion);
+								detalleObligacion.setCuota(cuotaObligacion);
+								detalleObligacion.setDiasMora(diasMora);
+								detalleObligacion.setFechaElaboracion(fechaElaboracion);
+								detalleObligacion.setFechaVencimiento(fechaVencimiento);
+								detalleObligacion.setValor(valorObligacion);
+								detalleObligacion.setEstado("ACTIVO");
+
+								System.out.println("Registro Obligaion exitoso");
+								if (sBDetalleObligacionLocal.registrarDetalleObligacion(detalleObligacion) != null) {
+
+									System.out.println("Registro DetalleObligaion exitoso");
+
+								}
+
+							}
+
 							cargarCompromiso();
 						}
 					}
@@ -224,14 +270,11 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 			}
 
 		}
-		
-		
+
 	}
 
 	public void cargarCompromiso() {
 
-		
-		
 	}
 
 	public void generarTokenUsuario(Usuario usuario, String correo, String celular) {
