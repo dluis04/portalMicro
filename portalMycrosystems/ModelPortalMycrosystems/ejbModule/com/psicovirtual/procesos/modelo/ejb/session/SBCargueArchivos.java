@@ -303,7 +303,6 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 				usuario.setContrasena(generarToken());
 				sBUsuarioLocal.actualizarUsuario(usuario);
 
-				System.out.println("Registro el token");
 				if (correo != null) {
 					enviarCorreoConToken(token.getToken(), correo);
 				} else {

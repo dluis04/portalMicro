@@ -75,6 +75,7 @@ public class MBLogin implements Serializable {
 			Usuario usuarioTemp = dnUsuarios.consultarDetalleUsuario(Integer.parseInt(cedula));
 
 			if (usuarioTemp != null) {
+				System.out.println("Entro a enviar tokens ");
 				if (dnUsuarios.enviarTokenRecuperacionPass(usuarioTemp)) {
 					mensajes.mostrarMensaje("Contraseña enviada al correo", 1);
 				} else {
