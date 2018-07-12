@@ -114,9 +114,9 @@ public class MBCargueArchivos {
 
 	public MBCargueArchivos() {
 		try {
-			if (validarSession()) {
+			
 				subirArchivo = true;
-			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,7 +137,7 @@ public class MBCargueArchivos {
 			HttpSession httpSession = (HttpSession) session2;
 			httpSession.invalidate();
 			String url2 = extContext.encodeActionURL(
-					context.getApplication().getViewHandler().getActionURL(context, "/view/index.xhtml"));
+					context.getApplication().getViewHandler().getActionURL(context, "/xhtml/index.xhtml"));
 			extContext.redirect(url2);
 		}
 

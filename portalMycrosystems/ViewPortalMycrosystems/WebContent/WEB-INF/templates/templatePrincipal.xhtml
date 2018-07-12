@@ -18,7 +18,7 @@
 	<meta charset="utf-8"></meta>
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
-
+  <f:event type="preRenderView" listener="#{MBLogin.verificarSesion()}" ></f:event>
 
 	<style>
 @media screen and (max-width: 810px) {
@@ -84,11 +84,11 @@
 
 			<p:submenu label="Gestion" icon="ui-icon-contact">
 
-				<p:menuitem value="Afiliados" url="/view/gestion/afiliados.xhtml" />
+				<p:menuitem value="Afiliados" url="/xhtml/gestion/afiliados.xhtml" />
 				<p:menuitem value="Cargue Archivos"
-					url="/view/gestion/cargueArchivos.xhtml" />
+					url="/xhtml/gestion/cargueArchivos.xhtml" />
 				<p:menuitem value="Cargues Realizados"
-					url="/view/gestion/carguesRealizados.xhtml" />
+					url="/xhtml/gestion/carguesRealizados.xhtml" />
 
 			</p:submenu>
 
