@@ -110,9 +110,9 @@ public class MBCarguesRealizados {
 	CargueArchivo cargueSeleccionado;
 	public MBCarguesRealizados() {
 		try {
-			if (validarSession()) {
+			
 				consultarCargue();
-			}
+			
 		} catch (Exception e) {
 			System.out.println("error en cargue ");
 		}
@@ -139,7 +139,7 @@ public class MBCarguesRealizados {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext extContext = context.getExternalContext();
 		String url2 = extContext.encodeActionURL(
-				context.getApplication().getViewHandler().getActionURL(context, "/view/gestion/detalleCargue.xhtml"));
+				context.getApplication().getViewHandler().getActionURL(context, "/xhtml/gestion/detalleCargue.xhtml"));
 		extContext.redirect(url2);
 
 	}
@@ -149,7 +149,7 @@ public class MBCarguesRealizados {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext extContext = context.getExternalContext();
 		String url2 = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-				"/view/gestion/carguesRealizados.xhtml"));
+				"/xhtml/gestion/carguesRealizados.xhtml"));
 		extContext.redirect(url2);
 
 	}
@@ -223,7 +223,7 @@ public class MBCarguesRealizados {
 			HttpSession httpSession = (HttpSession) session2;
 			httpSession.invalidate();
 			String url2 = extContext.encodeActionURL(
-					context.getApplication().getViewHandler().getActionURL(context, "/view/index.xhtml"));
+					context.getApplication().getViewHandler().getActionURL(context, "/xhtml/index.xhtml"));
 			extContext.redirect(url2);
 		}
 

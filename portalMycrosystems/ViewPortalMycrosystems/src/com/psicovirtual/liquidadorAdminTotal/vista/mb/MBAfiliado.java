@@ -31,11 +31,11 @@ public class MBAfiliado implements Serializable {
 	public MBAfiliado() {
 
 		try {
-			if (validarSession()) {
+		
 				afiliado = new Cliente();
 				afiliadoSeleccionado = new Cliente();
 				listarAfiliados();
-			}
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -56,7 +56,7 @@ public class MBAfiliado implements Serializable {
 			session.invalidate();
 
 			String url2 = extContext.encodeActionURL(
-					context.getApplication().getViewHandler().getActionURL(context, "/view/index.xhtml"));
+					context.getApplication().getViewHandler().getActionURL(context, "/xhtml/index.xhtml"));
 			extContext.redirect(url2);
 		}
 
