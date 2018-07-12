@@ -27,63 +27,63 @@
 						closable="false" resizable="false" showHeader="false">
 						<p:graphicImage library="images" name="ajax-loader.gif" />
 					</p:dialog>
-					
-					
-						<p:panel id="panelRegistrar">
-						
-					<div align="center">
+
+
+					<p:panel id="panelRegistrar">
+
+						<div align="center">
 
 
 
-						<div class="ui-g">
+							<div class="ui-g">
 
 
-							<div class="ui-g-12 ui-lg-6">
+								<div class="ui-g-12 ui-lg-6">
 
 
-								<h:outputText style="    font-weight: bold; " value="Nit : " />
-							</div>
+									<h:outputText style="    font-weight: bold; " value="Nit : " />
+								</div>
 
-							<div class="ui-g-12 ui-lg-6">
-								<p:inputText id="nit" maxlength="100" 
-									value="#{MBAfiliado.afiliado.nit}">
-								</p:inputText>
-							</div>
-							<div class="ui-g-12 ui-lg-6">
-								<h:outputText style="    font-weight: bold; " value="Nombre : " />
-							</div>
-							<div class="ui-g-12 ui-lg-6">
-								<p:inputText id="idNombre" maxlength="100"  
-									value="#{MBAfiliado.afiliado.nombre}">
-								</p:inputText>
-							</div>
-							<div class="ui-g-12 ui-lg-6">
-
-
+								<div class="ui-g-12 ui-lg-6">
+									<p:inputText id="nit" maxlength="100"
+										value="#{MBAfiliado.afiliado.nit}">
+									</p:inputText>
+								</div>
+								<div class="ui-g-12 ui-lg-6">
+									<h:outputText style="    font-weight: bold; " value="Nombre : " />
+								</div>
+								<div class="ui-g-12 ui-lg-6">
+									<p:inputText id="idNombre" maxlength="100"
+										value="#{MBAfiliado.afiliado.nombre}">
+									</p:inputText>
+								</div>
+								<div class="ui-g-12 ui-lg-6">
 
 
-								<p:commandButton value="Guardar" style="width: 220px;"
-									onstart="PF('statusDialog').show();  "
-									oncomplete="PF('statusDialog').hide();"
-									update=":formPrincipal:tapView, messages1
+
+
+									<p:commandButton value="Guardar" style="width: 220px;"
+										onstart="PF('statusDialog').show();  "
+										oncomplete="PF('statusDialog').hide();"
+										update=":formPrincipal:tapView, messages1
 							,:formPrincipal:tapView:tbl"
-									action="#{MBAfiliado.guardarAfiliado}" id="guardar">
-								</p:commandButton>
-							</div>
-							<div class="ui-g-12 ui-lg-6">
-								<p:commandButton value="Limpiar" style="width: 220px;"
-									onstart="PF('statusDialog').show();  "
-									oncomplete="PF('statusDialog').hide();"
-									update=":formPrincipal:tapView:panelRegistrar" action="#{MBAfiliado.limpiar}"
-									id="limpiar">
-								</p:commandButton>
-							</div>
+										action="#{MBAfiliado.guardarAfiliado}" id="guardar">
+									</p:commandButton>
+								</div>
+								<div class="ui-g-12 ui-lg-6">
+									<p:commandButton value="Limpiar" style="width: 220px;"
+										onstart="PF('statusDialog').show();  "
+										oncomplete="PF('statusDialog').hide();"
+										update=":formPrincipal:tapView:panelRegistrar"
+										action="#{MBAfiliado.limpiar}" id="limpiar">
+									</p:commandButton>
+								</div>
 
+
+							</div>
 
 						</div>
-
-					</div>
-</p:panel>
+					</p:panel>
 				</p:tab>
 
 				<p:tab id="tapConsulta" title="Consulta / Modificación">
@@ -95,7 +95,7 @@
 							<div class="ui-g">
 
 
-							
+
 
 								<div class="ui-g-12 ui-lg-6">
 									<h:outputText style="    font-weight: bold; " value="Nombre : " />
@@ -110,15 +110,15 @@
 									<p:commandButton value="Modificar" style="width: 220px;"
 										update=":formPrincipal:tapView:panelModificar, messages1
 							,:formPrincipal:tapView:tbl"
-							 action="#{MBAfiliado.modificarAfiliado}"
-										id="modificar">
+										action="#{MBAfiliado.modificarAfiliado}" id="modificar">
 									</p:commandButton>
 								</div>
 
 								<div class="ui-g-12 ui-lg-6">
 									<p:commandButton value="Limpiar" style="width: 220px;"
-									 action="#{MBAfiliado.limpiar}"
-										update=":formPrincipal:tapView:panelModificar" id="limpiarModificar">
+										action="#{MBAfiliado.limpiar}"
+										update=":formPrincipal:tapView:panelModificar"
+										id="limpiarModificar">
 									</p:commandButton>
 								</div>
 
@@ -136,7 +136,7 @@
 								rowKey="#{var.nit}" value="#{MBAfiliado.listAfiliados}">
 
 
-								<p:ajax event="rowSelect" 
+								<p:ajax event="rowSelect"
 									update=":formPrincipal:tapView:panelModificar" />
 
 
