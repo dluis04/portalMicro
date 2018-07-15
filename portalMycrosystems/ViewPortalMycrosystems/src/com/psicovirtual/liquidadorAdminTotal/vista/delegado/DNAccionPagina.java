@@ -34,4 +34,8 @@ public class DNAccionPagina {
 	public List<AccionesPagina> consultarAccionesPagina(Pagina pagina) throws Exception {
 		return sBAccionesPaginaLocal.consultarAccionesPagina(pagina);
 	}
+
+	public List<AccionesPagina> consultarTodasAccionesPaginas() throws Exception {
+		return sBAccionesPaginaLocal.consultarTodasAccionesPaginas();
+	}
 }

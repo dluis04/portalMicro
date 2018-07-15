@@ -15,5 +15,7 @@ public interface SBAccionesPaginaLocal {
 	public AccionesPagina actualizarAccionPagina(AccionesPagina update) throws Exception;
 
 	public List<AccionesPagina> consultarAccionesPagina(Pagina pagina) throws Exception;
+	
+	public List<AccionesPagina> consultarTodasAccionesPaginas() throws Exception;
 
 }

@@ -50,4 +50,13 @@ public class SBAccionesPagina implements SBAccionesPaginaLocal {
 		return listAcciones;
 	}
 
+	@Override
+	public List<AccionesPagina> consultarTodasAccionesPaginas() throws Exception {
+		String query = "SELECT u FROM AccionesPagina u where u.activa='1' ";
+
+		List<AccionesPagina> listAcciones = sbFacade.executeQuery(query, null);
+
+		return listAcciones;
+	}
+
 }

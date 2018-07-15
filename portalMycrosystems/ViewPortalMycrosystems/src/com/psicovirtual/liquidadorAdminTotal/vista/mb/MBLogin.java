@@ -32,7 +32,7 @@ public class MBLogin implements Serializable {
 	}
 
 	public void navegarControl() {
-		System.out.println("Hola");
+
 		try {
 
 			inicializarDelegados();
@@ -50,12 +50,8 @@ public class MBLogin implements Serializable {
 				FacesContext context = FacesContext.getCurrentInstance();
 				ExternalContext extContext = context.getExternalContext();
 
-	
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", logueado);
 
-				   FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", logueado);
-		            
-				
-				
 				String url2 = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
 						"/xhtml/gestion/bienvenido.xhtml"));
 				extContext.redirect(url2);
@@ -98,15 +94,14 @@ public class MBLogin implements Serializable {
 			inicializarDelegados();
 			if (dNSesionActiva.cerrarSesionActivaByUsuario(usuario) == 0) {
 
-
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("usuario");
-	            Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-				
-				
-	            if (us == null) {
+				Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+						.get("usuario");
 
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
-	            }
+				if (us == null) {
+
+					FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
+				}
 			}
 		} catch (Exception e) {
 			// TODO: Add catch code
@@ -114,23 +109,23 @@ public class MBLogin implements Serializable {
 		}
 
 	}
-	
-    public void verificarSesion() {
 
-        try {
+	public void verificarSesion() {
 
-            Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		try {
 
-            if (us == null) {
+			Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+					.get("usuario");
 
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
-            }
+			if (us == null) {
 
-        } catch (Exception e) {
-        }
+				FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
+			}
 
-    }
-	
+		} catch (Exception e) {
+		}
+
+	}
 
 	public void tabIsClosed() {
 
