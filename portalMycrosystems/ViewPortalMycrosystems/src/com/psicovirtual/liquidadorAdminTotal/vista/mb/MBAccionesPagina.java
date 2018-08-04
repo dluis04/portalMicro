@@ -127,7 +127,6 @@ public class MBAccionesPagina implements Serializable {
 		accionesPaginaSeleccionada = null;
 		accionesPaginaSeleccionada = new AccionesPagina();
 	}
-
 	private void inicializarDelegados() throws Exception {
 		if (dnUsuarios == null) {
 			dnUsuarios = new DNUsuario();
@@ -141,6 +140,7 @@ public class MBAccionesPagina implements Serializable {
 			dNAccionPagina = new DNAccionPagina();
 		}
 	}
+
 
 	public Pagina getPaginaSeleccionadaModificar() {
 

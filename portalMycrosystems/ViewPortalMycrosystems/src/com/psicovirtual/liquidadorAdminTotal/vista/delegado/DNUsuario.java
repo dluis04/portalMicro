@@ -1,5 +1,7 @@
 package com.psicovirtual.liquidadorAdminTotal.vista.delegado;
 
+import java.util.List;
+
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.ApplicationScoped;
 
@@ -38,6 +40,10 @@ public class DNUsuario {
 
 	public boolean enviarTokenRecuperacionPass(Usuario user) throws Exception {
 		return sBUsuarioLocal.enviarCorreoTokenRecuperacion(user);
+	}
+
+	public List<Usuario> consultarAllUsuariosActivos() throws Exception {
+		return sBUsuarioLocal.consultarAllUsuariosActivos();
 	}
 
 }

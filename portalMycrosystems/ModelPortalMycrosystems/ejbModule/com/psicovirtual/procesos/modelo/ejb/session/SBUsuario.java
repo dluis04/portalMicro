@@ -150,4 +150,12 @@ public class SBUsuario implements SBUsuarioLocal {
 		return random;
 	}
 
+	@Override
+	public List<Usuario> consultarAllUsuariosActivos() throws Exception {
+		
+		String query = "SELECT u FROM Usuario u where u.estado='A' ";
+		List<Usuario> listUsuario = sbFacade.executeQuery(query, null);
+		return listUsuario;
+	}
+
 }
