@@ -31,11 +31,10 @@ public class MBAfiliado implements Serializable {
 	public MBAfiliado() {
 
 		try {
-			if (validarSession()) {
-				afiliado = new Cliente();
-				afiliadoSeleccionado = new Cliente();
-				listarAfiliados();
-			}
+
+			afiliado = new Cliente();
+			afiliadoSeleccionado = new Cliente();
+			listarAfiliados();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -56,7 +55,7 @@ public class MBAfiliado implements Serializable {
 			session.invalidate();
 
 			String url2 = extContext.encodeActionURL(
-					context.getApplication().getViewHandler().getActionURL(context, "/view/index.xhtml"));
+					context.getApplication().getViewHandler().getActionURL(context, "/xhtml/index.xhtml"));
 			extContext.redirect(url2);
 		}
 
@@ -79,12 +78,6 @@ public class MBAfiliado implements Serializable {
 			dnAfiliado = new DNAfiliado();
 		}
 
-		// Afiliado afiliado = dnAfiliado.buscarAfiliado(afiliadoSeleccionado.getNit());
-		// System.out.println("nom "+ afiliadoSeleccionado.getNombre());
-		//
-		// afiliado.setNombre(afiliadoSeleccionado.getNombre());
-		//
-
 		dnAfiliado.modificarAfiliado(afiliadoSeleccionado);
 
 		mensajes.mostrarMensajeOk("Modificacion Exitosa.");
@@ -101,24 +94,11 @@ public class MBAfiliado implements Serializable {
 		listAfiliados = dnAfiliado.listaAfiliado();
 	}
 
-	public void cargarModificar() {
-
-		System.out.println("dato " + afiliadoSeleccionado.getNombre());
-
-	}
-
 	public void limpiar() {
 
 		afiliado = new Cliente();
 
 		afiliadoSeleccionado = new Cliente();
-	}
-
-	private void inicializarDelegados() throws Exception {
-
-		if (dNSesionActiva == null) {
-			dNSesionActiva = new DNSesionActiva();
-		}
 	}
 
 	public MBMensajes getMensajes() {
@@ -184,8 +164,5 @@ public class MBAfiliado implements Serializable {
 	public void setSession(HttpSession session) {
 		this.session = session;
 	}
-
-	
-
 
 }

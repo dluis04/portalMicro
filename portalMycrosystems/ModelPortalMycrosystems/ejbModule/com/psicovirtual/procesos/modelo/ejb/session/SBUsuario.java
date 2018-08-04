@@ -87,15 +87,17 @@ public class SBUsuario implements SBUsuarioLocal {
 
 		List<ClienteUsuario> listClienteUsuario = sBclienteUsuarioLocal.consultarUsuariosByIdUsuario(user);
 		String token = null;
+
 		for (ClienteUsuario list : listClienteUsuario) {
 
 			token = generarTokenUsuario(list.getUsuario(), list.getCorreo());
 
 			if (token != null) {
-				x.sendMailSimples(list.getCorreo(), "Recuperacion de contraseña",
-						"Cordial Saludo, " + " \n El codigo de recuperacion de contraseña es: " + token
+				x.sendMailSimples(list.getCorreo(), "Recuperacion de contraseÃ±a",
+						"Cordial Saludo, " + " \n El codigo de recuperacion de contraseÃ±a es: " + token
 								+ " \n Ingresar en un tiempo de 2 horas sino el codigo se vencera."
 								+ " \n Atentamente la administracion");
+
 				token = null;
 				isEnvio = true;
 			} else {
@@ -108,6 +110,7 @@ public class SBUsuario implements SBUsuarioLocal {
 	}
 
 	public String generarTokenUsuario(Usuario usuario, String correo) {
+
 		String tokenGenerado = "";
 		try {
 
@@ -126,6 +129,7 @@ public class SBUsuario implements SBUsuarioLocal {
 
 			token.setUsuario(usuario);
 			token.setFechaFin(fechaIniFin);
+
 			tokenGenerado = generarToken();
 			token.setToken(tokenGenerado);
 			token.setActivo(1);
@@ -144,6 +148,14 @@ public class SBUsuario implements SBUsuarioLocal {
 		long longToken = Math.abs(random.nextLong());
 		String random = Long.toString(longToken, 17).substring(0, 8);
 		return random;
+	}
+
+	@Override
+	public List<Usuario> consultarAllUsuariosActivos() throws Exception {
+		
+		String query = "SELECT u FROM Usuario u where u.estado='A' ";
+		List<Usuario> listUsuario = sbFacade.executeQuery(query, null);
+		return listUsuario;
 	}
 
 }

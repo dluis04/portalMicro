@@ -42,32 +42,33 @@ public class MBUsuario implements Serializable {
 		}
 	}
 
-	public void cerrarSesion() {
-
-		try {
-			inicializarDelegados();
-			if (dNSesionActiva.cerrarSesionActivaByUsuario(usuario) == 0) {
-
-				FacesContext context = FacesContext.getCurrentInstance();
-
-				ExternalContext externalContext = context.getExternalContext();
-
-				Object session = externalContext.getSession(false);
-
-				HttpSession httpSession = (HttpSession) session;
-
-				httpSession.invalidate();
-
-				String url2 = externalContext.encodeActionURL(
-						context.getApplication().getViewHandler().getActionURL(context, "/view/index.xhtml"));
-				externalContext.redirect(url2);
-			}
-		} catch (Exception e) {
-			// TODO: Add catch code
-			e.printStackTrace();
-		}
-
-	}
+	// public void cerrarSesion() {
+	//
+	// try {
+	// inicializarDelegados();
+	// if (dNSesionActiva.cerrarSesionActivaByUsuario(usuario) == 0) {
+	//
+	// FacesContext context = FacesContext.getCurrentInstance();
+	//
+	// ExternalContext externalContext = context.getExternalContext();
+	//
+	// Object session = externalContext.getSession(false);
+	//
+	// HttpSession httpSession = (HttpSession) session;
+	//
+	// httpSession.invalidate();
+	//
+	// String url2 = externalContext.encodeActionURL(
+	// context.getApplication().getViewHandler().getActionURL(context,
+	// "/index.xhtml"));
+	// externalContext.redirect(url2);
+	// }
+	// } catch (Exception e) {
+	// // TODO: Add catch code
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	public void tabIsClosed() {
 

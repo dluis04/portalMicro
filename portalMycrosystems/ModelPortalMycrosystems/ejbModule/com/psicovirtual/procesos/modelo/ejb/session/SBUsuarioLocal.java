@@ -1,5 +1,7 @@
 package com.psicovirtual.procesos.modelo.ejb.session;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario;
@@ -16,5 +18,7 @@ public interface SBUsuarioLocal {
 	public int consultarUsuarioInicio(Usuario user) throws Exception;
 
 	public boolean enviarCorreoTokenRecuperacion(Usuario user) throws Exception;
+	
+	public List<Usuario> consultarAllUsuariosActivos() throws Exception;
 
 }

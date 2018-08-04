@@ -22,7 +22,6 @@ public class MBLogin implements Serializable {
 	MBMensajes mensajes = new MBMensajes();
 	DNUsuario dnUsuarios;
 	DNSesionActiva dNSesionActiva;
-
 	private Usuario usuario;
 	private SesionesActiva sesion;
 	private String cedula;
@@ -51,11 +50,10 @@ public class MBLogin implements Serializable {
 				FacesContext context = FacesContext.getCurrentInstance();
 				ExternalContext extContext = context.getExternalContext();
 
-				HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-				session.setAttribute("id", usuario.getCedula());
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", logueado);
 
 				String url2 = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-						"/view/gestion/bienvenido.xhtml"));
+						"/xhtml/gestion/bienvenido.xhtml"));
 				extContext.redirect(url2);
 			} else {
 				mensajes.mostrarMensajeAlerta("Identificacion o correo invalidos");
@@ -70,22 +68,23 @@ public class MBLogin implements Serializable {
 
 	public void recuperarPassword() {
 		try {
-			
+
 			inicializarDelegados();
-			
+
 			Usuario usuarioTemp = dnUsuarios.consultarDetalleUsuario(Integer.parseInt(cedula));
 
 			if (usuarioTemp != null) {
+				System.out.println("Entro a enviar tokens ");
 				if (dnUsuarios.enviarTokenRecuperacionPass(usuarioTemp)) {
-					System.out.println("Contraseña enviada al correo");
+					mensajes.mostrarMensaje("ContraseÃ±a enviada al correo", 1);
 				} else {
-					System.out.println("No se pudo generar el token");
+					mensajes.mostrarMensaje("No se genero el token, valide con el administrador", 3);
 				}
 			} else {
-				System.out.println("Cedula Invalida");
+				mensajes.mostrarMensaje("Cedula Invalida", 3);
 			}
 		} catch (Exception e) {
-			System.out.println("Error en el metodo recuperarPassword -->> " + e);
+			System.out.println("Error en el metodo recuperarPassword --->> " + e);
 		}
 	}
 
@@ -95,23 +94,35 @@ public class MBLogin implements Serializable {
 			inicializarDelegados();
 			if (dNSesionActiva.cerrarSesionActivaByUsuario(usuario) == 0) {
 
-				FacesContext context = FacesContext.getCurrentInstance();
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("usuario");
+				Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+						.get("usuario");
 
-				ExternalContext externalContext = context.getExternalContext();
+				if (us == null) {
 
-				Object session = externalContext.getSession(false);
-
-				HttpSession httpSession = (HttpSession) session;
-
-				httpSession.invalidate();
-
-				String url2 = externalContext.encodeActionURL(
-						context.getApplication().getViewHandler().getActionURL(context, "/view/index.xhtml"));
-				externalContext.redirect(url2);
+					FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
+				}
 			}
 		} catch (Exception e) {
 			// TODO: Add catch code
 			e.printStackTrace();
+		}
+
+	}
+
+	public void verificarSesion() {
+
+		try {
+
+			Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+					.get("usuario");
+
+			if (us == null) {
+
+				FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
+			}
+
+		} catch (Exception e) {
 		}
 
 	}
