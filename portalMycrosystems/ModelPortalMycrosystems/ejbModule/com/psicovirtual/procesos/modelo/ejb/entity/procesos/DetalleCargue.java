@@ -31,6 +31,9 @@ public class DetalleCargue implements Serializable {
 
 	private String direccion;
 
+	@Column(name="ERROR_CARGUE")
+	private String errorCargue;
+
 	private String estado;
 
 	@Temporal(TemporalType.DATE)
@@ -40,9 +43,6 @@ public class DetalleCargue implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_VENCIMIENTO")
 	private Date fechaVencimiento;
-
-	@Column(name="MSG_ERROR")
-	private String msgError;
 
 	@Column(name="PRIMER_APELLIDO")
 	private String primerApellido;
@@ -134,6 +134,14 @@ public class DetalleCargue implements Serializable {
 		this.direccion = direccion;
 	}
 
+	public String getErrorCargue() {
+		return this.errorCargue;
+	}
+
+	public void setErrorCargue(String errorCargue) {
+		this.errorCargue = errorCargue;
+	}
+
 	public String getEstado() {
 		return this.estado;
 	}
@@ -156,14 +164,6 @@ public class DetalleCargue implements Serializable {
 
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
-	}
-
-	public String getMsgError() {
-		return this.msgError;
-	}
-
-	public void setMsgError(String msgError) {
-		this.msgError = msgError;
 	}
 
 	public String getPrimerApellido() {

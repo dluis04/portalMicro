@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.CargueArchivo;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCargue;
+import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Trackingurl;
 
 @Local
 public interface SBCargueArchivosLocal {
@@ -22,5 +23,6 @@ public interface SBCargueArchivosLocal {
 	public List<CargueArchivo> listaCargues() throws Exception;
 
 	public List<DetalleCargue> listaDetalleCargue(String idCargue) throws Exception;
+	public Trackingurl guardarTRackingUrl(Trackingurl param) throws Exception;
 
 }

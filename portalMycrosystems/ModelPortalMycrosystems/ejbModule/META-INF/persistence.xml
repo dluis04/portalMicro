@@ -5,25 +5,26 @@
 	<persistence-unit name="portal">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<jta-data-source>jdbc/portalDS</jta-data-source>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.CargueArchivo</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCargue</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCarguePK</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.AccionesPagina</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Pagina</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.PermisosUsuario</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.SesionesActiva</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.CargueArchivo</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Cliente</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.ClienteUsuario</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Compromiso</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCargue</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCarguePK</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleObligacion</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.EstadoCargue</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.EstadoNotificacionCargue</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.EstadoNotificacionUsuario</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.EstadoUsuario</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.FlujoNotificacion</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Negociacione</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Obligacion</class>
-		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.PlantillasEmail</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Pagina</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.PermisosUsuario</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.SesionesActiva</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.TipoNotificiacon</class>
 		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Token</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario</class>
+		<class>com.psicovirtual.procesos.modelo.ejb.entity.procesos.Trackingurl</class>
 		<properties>
 			<property name="eclipselink.target-server" value="SunAS9" />
 		</properties>

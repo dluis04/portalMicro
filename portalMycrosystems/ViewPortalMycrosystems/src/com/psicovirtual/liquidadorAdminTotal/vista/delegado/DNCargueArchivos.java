@@ -10,6 +10,7 @@ import com.psicovirtual.estandar.modelo.utilidades.Parametros;
 import com.psicovirtual.estandar.vista.utilidades.ServiceLocator;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.CargueArchivo;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCargue;
+import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Trackingurl;
 import com.psicovirtual.procesos.modelo.ejb.session.SBCargueArchivosLocal;
 
 @ManagedBean(value = "DNCargueArchivos")
@@ -48,4 +49,12 @@ public class DNCargueArchivos {
 		return sBCargueArchivosLocal.listaDetalleCargue(idCargue);
 	}
 
+	public Trackingurl guardarTRackingUrl(Trackingurl param) throws Exception {
+		return sBCargueArchivosLocal.guardarTRackingUrl(param);
+	}
+
+	
+	
+	
+	
 }

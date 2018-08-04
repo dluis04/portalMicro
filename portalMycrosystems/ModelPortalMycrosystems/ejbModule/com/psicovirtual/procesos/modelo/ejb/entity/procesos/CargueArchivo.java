@@ -39,9 +39,6 @@ public class CargueArchivo implements Serializable {
 	//bi-directional many-to-one association to EstadoNotificacionCargue
 	@OneToMany(mappedBy="cargueArchivo")
 	private List<EstadoNotificacionCargue> estadoNotificacionCargues;
-
-	
-
 	@Transient
 	private String nombreAfil;
 	
@@ -67,7 +64,6 @@ public class CargueArchivo implements Serializable {
 	public void setCantidadRegistros(String cantidadRegistros) {
 		this.cantidadRegistros = cantidadRegistros;
 	}
-
 	public CargueArchivo() {
 	}
 

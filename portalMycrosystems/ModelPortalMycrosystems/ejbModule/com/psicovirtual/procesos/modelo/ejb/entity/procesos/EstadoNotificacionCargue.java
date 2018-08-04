@@ -2,7 +2,7 @@ package com.psicovirtual.procesos.modelo.ejb.entity.procesos;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 /**
@@ -19,21 +19,18 @@ public class EstadoNotificacionCargue implements Serializable {
 	@Column(name="ID_ESTADO_NOT_CARG")
 	private int idEstadoNotCarg;
 
-	private int activo;
-
-	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_CREACION")
-	private Date fechaCreacion;
+	private Timestamp fechaCreacion;
+
+	//bi-directional many-to-one association to FlujoNotificacion
+	@ManyToOne
+	@JoinColumn(name="ID_FLUJO_NOTI")
+	private FlujoNotificacion flujoNotificacion;
 
 	//bi-directional many-to-one association to CargueArchivo
 	@ManyToOne
 	@JoinColumn(name="ID_CARGUE")
 	private CargueArchivo cargueArchivo;
-
-	//bi-directional many-to-one association to EstadoCargue
-	@ManyToOne
-	@JoinColumn(name="ID_ESTADO_CARGUE")
-	private EstadoCargue estadoCargue;
 
 	public EstadoNotificacionCargue() {
 	}
@@ -46,20 +43,20 @@ public class EstadoNotificacionCargue implements Serializable {
 		this.idEstadoNotCarg = idEstadoNotCarg;
 	}
 
-	public int getActivo() {
-		return this.activo;
-	}
-
-	public void setActivo(int activo) {
-		this.activo = activo;
-	}
-
-	public Date getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+
+	public FlujoNotificacion getFlujoNotificacion() {
+		return this.flujoNotificacion;
+	}
+
+	public void setFlujoNotificacion(FlujoNotificacion flujoNotificacion) {
+		this.flujoNotificacion = flujoNotificacion;
 	}
 
 	public CargueArchivo getCargueArchivo() {
@@ -68,14 +65,6 @@ public class EstadoNotificacionCargue implements Serializable {
 
 	public void setCargueArchivo(CargueArchivo cargueArchivo) {
 		this.cargueArchivo = cargueArchivo;
-	}
-
-	public EstadoCargue getEstadoCargue() {
-		return this.estadoCargue;
-	}
-
-	public void setEstadoCargue(EstadoCargue estadoCargue) {
-		this.estadoCargue = estadoCargue;
 	}
 
 }

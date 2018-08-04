@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.psicovirtual.estandar.vista.mb.MBMensajes;
@@ -26,6 +27,13 @@ public class MBLogin implements Serializable {
 	private SesionesActiva sesion;
 	private String cedula;
 
+	
+	
+	private String cedulaLogin;
+	private String contrasenaLogin;
+	
+	
+	
 	public MBLogin() {
 		usuario = new Usuario();
 		sesion = new SesionesActiva();
@@ -35,34 +43,48 @@ public class MBLogin implements Serializable {
 		System.out.println("Hola");
 		try {
 
+//			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+//					.getRequest();
+//
+//			String usuarioLogin = request.getParameter("usuarioLogin");
+//
+//			String usuarioContrasena = request.getParameter("usuarioContrasena");
+//
+//			// use the value in txtProperty as you want...
+//			// Note: don't use System.out.println in production, use a logger instead
+//
+//			System.out.println(usuarioLogin + "/" + usuarioContrasena);
+//
+//			if (usuarioLogin != null && usuarioContrasena != null) {
+
+				
+			usuario.setCedula(Integer.parseInt(cedulaLogin));
+				usuario.setContrasena(contrasenaLogin);
 			inicializarDelegados();
 
-			if (dnUsuarios.consultarUsuarioInicio(usuario) == 1) {
+				if (dnUsuarios.consultarUsuarioInicio(usuario) == 1) {
 
-				Usuario logueado = dnUsuarios.consultarDetalleUsuario(usuario.getCedula());
-				Date fecha = new Date();
-				sesion.setUsuario(logueado);
-				sesion.setFechaIngreso(fecha);
-				sesion.setFechaUltimaAct(fecha);
+					Usuario logueado = dnUsuarios.consultarDetalleUsuario(usuario.getCedula());
+					Date fecha = new Date();
+					sesion.setUsuario(logueado);
+					sesion.setFechaIngreso(fecha);
+					sesion.setFechaUltimaAct(fecha);
 
-				dNSesionActiva.registroSesionActiva(sesion);
+					dNSesionActiva.registroSesionActiva(sesion);
 
-				FacesContext context = FacesContext.getCurrentInstance();
-				ExternalContext extContext = context.getExternalContext();
+					FacesContext context = FacesContext.getCurrentInstance();
+					ExternalContext extContext = context.getExternalContext();
 
-	
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", logueado);
 
-				   FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", logueado);
-		            
-				
-				
-				String url2 = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-						"/xhtml/gestion/bienvenido.xhtml"));
-				extContext.redirect(url2);
-			} else {
-				mensajes.mostrarMensajeAlerta("Identificacion o correo invalidos");
+					String url2 = extContext.encodeActionURL(context.getApplication().getViewHandler()
+							.getActionURL(context, "/xhtml/gestion/bienvenido.xhtml"));
+					extContext.redirect(url2);
+				} else {
+					mensajes.mostrarMensajeAlerta("Identificacion o correo invalidos");
 
-			}
+				}
+//			}
 
 		} catch (Exception exception) {
 			// TODO: Add catch code
@@ -98,15 +120,14 @@ public class MBLogin implements Serializable {
 			inicializarDelegados();
 			if (dNSesionActiva.cerrarSesionActivaByUsuario(usuario) == 0) {
 
-
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("usuario");
-	            Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-				
-				
-	            if (us == null) {
+				Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+						.get("usuario");
 
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
-	            }
+				if (us == null) {
+
+					FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
+				}
 			}
 		} catch (Exception e) {
 			// TODO: Add catch code
@@ -114,23 +135,23 @@ public class MBLogin implements Serializable {
 		}
 
 	}
-	
-    public void verificarSesion() {
 
-        try {
+	public void verificarSesion() {
 
-            Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		try {
 
-            if (us == null) {
+			Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+					.get("usuario");
 
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
-            }
+			if (us == null) {
 
-        } catch (Exception e) {
-        }
+				FacesContext.getCurrentInstance().getExternalContext().redirect("../../../");
+			}
 
-    }
-	
+		} catch (Exception e) {
+		}
+
+	}
 
 	public void tabIsClosed() {
 
@@ -187,6 +208,38 @@ public class MBLogin implements Serializable {
 
 	public void setMensajes(MBMensajes mensajes) {
 		this.mensajes = mensajes;
+	}
+
+	public DNUsuario getDnUsuarios() {
+		return dnUsuarios;
+	}
+
+	public void setDnUsuarios(DNUsuario dnUsuarios) {
+		this.dnUsuarios = dnUsuarios;
+	}
+
+	public DNSesionActiva getdNSesionActiva() {
+		return dNSesionActiva;
+	}
+
+	public void setdNSesionActiva(DNSesionActiva dNSesionActiva) {
+		this.dNSesionActiva = dNSesionActiva;
+	}
+
+	public String getCedulaLogin() {
+		return cedulaLogin;
+	}
+
+	public void setCedulaLogin(String cedulaLogin) {
+		this.cedulaLogin = cedulaLogin;
+	}
+
+	public String getContrasenaLogin() {
+		return contrasenaLogin;
+	}
+
+	public void setContrasenaLogin(String contrasenaLogin) {
+		this.contrasenaLogin = contrasenaLogin;
 	}
 
 }
