@@ -2,7 +2,7 @@ package com.psicovirtual.procesos.modelo.ejb.entity.procesos;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 /**
@@ -16,50 +16,61 @@ public class EstadoNotificacionUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="ID_ESTADO_NOT_USU")
-	private int idEstadoNotUsu;
+	@Column(name="ID_ESTADO_NOT_CARG")
+	private int idEstadoNotCarg;
 
-	private int activo;
+	@Column(name="ESTADO_NOTIFICACION")
+	private String estadoNotificacion;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_CREACION")
-	private Date fechaCreacion;
+	private Timestamp fechaCreacion;
+
+	@Column(name="RESPUESTA_SERVICIO")
+	private String respuestaServicio;
 
 	//bi-directional many-to-one association to ClienteUsuario
 	@ManyToOne
 	@JoinColumn(name="ID_CLIENTE_USUARIO")
 	private ClienteUsuario clienteUsuario;
 
-	//bi-directional many-to-one association to EstadoUsuario
+	//bi-directional many-to-one association to FlujoNotificacion
 	@ManyToOne
-	@JoinColumn(name="ID_ESTADO_USUARIO")
-	private EstadoUsuario estadoUsuario;
+	@JoinColumn(name="ID_FLUJO_NOTI")
+	private FlujoNotificacion flujoNotificacion;
 
 	public EstadoNotificacionUsuario() {
 	}
 
-	public int getIdEstadoNotUsu() {
-		return this.idEstadoNotUsu;
+	public int getIdEstadoNotCarg() {
+		return this.idEstadoNotCarg;
 	}
 
-	public void setIdEstadoNotUsu(int idEstadoNotUsu) {
-		this.idEstadoNotUsu = idEstadoNotUsu;
+	public void setIdEstadoNotCarg(int idEstadoNotCarg) {
+		this.idEstadoNotCarg = idEstadoNotCarg;
 	}
 
-	public int getActivo() {
-		return this.activo;
+	public String getEstadoNotificacion() {
+		return this.estadoNotificacion;
 	}
 
-	public void setActivo(int activo) {
-		this.activo = activo;
+	public void setEstadoNotificacion(String estadoNotificacion) {
+		this.estadoNotificacion = estadoNotificacion;
 	}
 
-	public Date getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+
+	public String getRespuestaServicio() {
+		return this.respuestaServicio;
+	}
+
+	public void setRespuestaServicio(String respuestaServicio) {
+		this.respuestaServicio = respuestaServicio;
 	}
 
 	public ClienteUsuario getClienteUsuario() {
@@ -70,12 +81,12 @@ public class EstadoNotificacionUsuario implements Serializable {
 		this.clienteUsuario = clienteUsuario;
 	}
 
-	public EstadoUsuario getEstadoUsuario() {
-		return this.estadoUsuario;
+	public FlujoNotificacion getFlujoNotificacion() {
+		return this.flujoNotificacion;
 	}
 
-	public void setEstadoUsuario(EstadoUsuario estadoUsuario) {
-		this.estadoUsuario = estadoUsuario;
+	public void setFlujoNotificacion(FlujoNotificacion flujoNotificacion) {
+		this.flujoNotificacion = flujoNotificacion;
 	}
 
 }

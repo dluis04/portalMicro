@@ -18,11 +18,23 @@ public class Cliente implements Serializable {
 	@Column(name="ID_CLIENTE")
 	private int idCliente;
 
+	@Column(name="CONTRASENA_INFOBI")
+	private String contrasenaInfobi;
+
 	private String correo;
+
+	@Column(name="DNS_CLIENTE")
+	private String dnsCliente;
+
+	@Column(name="ID_PLANTILLA")
+	private int idPlantilla;
 
 	private int nit;
 
 	private String nombre;
+
+	@Column(name="USUARIO_INFOBI")
+	private String usuarioInfobi;
 
 	//bi-directional many-to-one association to CargueArchivo
 	@OneToMany(mappedBy="cliente")
@@ -32,32 +44,13 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy="cliente")
 	private List<ClienteUsuario> clienteUsuarios;
 
-	
-	
-	@Transient
-	private String nombreAfil;
-	
-	
-	@Transient
-	private String cantidadRegistros;
-	
-	
-	
-	public String getNombreAfil() {
-		return nombreAfil;
-	}
+	//bi-directional many-to-one association to FlujoNotificacion
+	@OneToMany(mappedBy="cliente")
+	private List<FlujoNotificacion> flujoNotificacions;
 
-	public void setNombreAfil(String nombreAfil) {
-		this.nombreAfil = nombreAfil;
-	}
-
-	public String getCantidadRegistros() {
-		return cantidadRegistros;
-	}
-
-	public void setCantidadRegistros(String cantidadRegistros) {
-		this.cantidadRegistros = cantidadRegistros;
-	}
+	//bi-directional many-to-one association to Negociacione
+	@OneToMany(mappedBy="cliente")
+	private List<Negociacione> negociaciones;
 
 	public Cliente() {
 	}
@@ -70,12 +63,36 @@ public class Cliente implements Serializable {
 		this.idCliente = idCliente;
 	}
 
+	public String getContrasenaInfobi() {
+		return this.contrasenaInfobi;
+	}
+
+	public void setContrasenaInfobi(String contrasenaInfobi) {
+		this.contrasenaInfobi = contrasenaInfobi;
+	}
+
 	public String getCorreo() {
 		return this.correo;
 	}
 
 	public void setCorreo(String correo) {
 		this.correo = correo;
+	}
+
+	public String getDnsCliente() {
+		return this.dnsCliente;
+	}
+
+	public void setDnsCliente(String dnsCliente) {
+		this.dnsCliente = dnsCliente;
+	}
+
+	public int getIdPlantilla() {
+		return this.idPlantilla;
+	}
+
+	public void setIdPlantilla(int idPlantilla) {
+		this.idPlantilla = idPlantilla;
 	}
 
 	public int getNit() {
@@ -92,6 +109,14 @@ public class Cliente implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getUsuarioInfobi() {
+		return this.usuarioInfobi;
+	}
+
+	public void setUsuarioInfobi(String usuarioInfobi) {
+		this.usuarioInfobi = usuarioInfobi;
 	}
 
 	public List<CargueArchivo> getCargueArchivos() {
@@ -136,6 +161,50 @@ public class Cliente implements Serializable {
 		clienteUsuario.setCliente(null);
 
 		return clienteUsuario;
+	}
+
+	public List<FlujoNotificacion> getFlujoNotificacions() {
+		return this.flujoNotificacions;
+	}
+
+	public void setFlujoNotificacions(List<FlujoNotificacion> flujoNotificacions) {
+		this.flujoNotificacions = flujoNotificacions;
+	}
+
+	public FlujoNotificacion addFlujoNotificacion(FlujoNotificacion flujoNotificacion) {
+		getFlujoNotificacions().add(flujoNotificacion);
+		flujoNotificacion.setCliente(this);
+
+		return flujoNotificacion;
+	}
+
+	public FlujoNotificacion removeFlujoNotificacion(FlujoNotificacion flujoNotificacion) {
+		getFlujoNotificacions().remove(flujoNotificacion);
+		flujoNotificacion.setCliente(null);
+
+		return flujoNotificacion;
+	}
+
+	public List<Negociacione> getNegociaciones() {
+		return this.negociaciones;
+	}
+
+	public void setNegociaciones(List<Negociacione> negociaciones) {
+		this.negociaciones = negociaciones;
+	}
+
+	public Negociacione addNegociacione(Negociacione negociacione) {
+		getNegociaciones().add(negociacione);
+		negociacione.setCliente(this);
+
+		return negociacione;
+	}
+
+	public Negociacione removeNegociacione(Negociacione negociacione) {
+		getNegociaciones().remove(negociacione);
+		negociacione.setCliente(null);
+
+		return negociacione;
 	}
 
 }

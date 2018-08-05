@@ -1,12 +1,14 @@
 package com.psicovirtual.liquidadorAdminTotal.vista.mb;
 
 import java.io.Serializable;
+
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.psicovirtual.estandar.vista.mb.MBMensajes;
@@ -26,6 +28,9 @@ public class MBLogin implements Serializable {
 	private SesionesActiva sesion;
 	private String cedula;
 
+	private String cedulaLogin;
+	private String contrasenaLogin;
+
 	public MBLogin() {
 		usuario = new Usuario();
 		sesion = new SesionesActiva();
@@ -35,6 +40,23 @@ public class MBLogin implements Serializable {
 
 		try {
 
+			// HttpServletRequest request = (HttpServletRequest)
+			// FacesContext.getCurrentInstance().getExternalContext()
+			// .getRequest();
+			//
+			// String usuarioLogin = request.getParameter("usuarioLogin");
+			//
+			// String usuarioContrasena = request.getParameter("usuarioContrasena");
+			//
+			// // use the value in txtProperty as you want...
+			// // Note: don't use System.out.println in production, use a logger instead
+			//
+			// System.out.println(usuarioLogin + "/" + usuarioContrasena);
+			//
+			// if (usuarioLogin != null && usuarioContrasena != null) {
+
+			usuario.setCedula(Integer.parseInt(cedulaLogin));
+			usuario.setContrasena(contrasenaLogin);
 			inicializarDelegados();
 
 			if (dnUsuarios.consultarUsuarioInicio(usuario) == 1) {
@@ -59,6 +81,7 @@ public class MBLogin implements Serializable {
 				mensajes.mostrarMensajeAlerta("Identificacion o correo invalidos");
 
 			}
+			// }
 
 		} catch (Exception exception) {
 			// TODO: Add catch code
@@ -182,6 +205,38 @@ public class MBLogin implements Serializable {
 
 	public void setMensajes(MBMensajes mensajes) {
 		this.mensajes = mensajes;
+	}
+
+	public DNUsuario getDnUsuarios() {
+		return dnUsuarios;
+	}
+
+	public void setDnUsuarios(DNUsuario dnUsuarios) {
+		this.dnUsuarios = dnUsuarios;
+	}
+
+	public DNSesionActiva getdNSesionActiva() {
+		return dNSesionActiva;
+	}
+
+	public void setdNSesionActiva(DNSesionActiva dNSesionActiva) {
+		this.dNSesionActiva = dNSesionActiva;
+	}
+
+	public String getCedulaLogin() {
+		return cedulaLogin;
+	}
+
+	public void setCedulaLogin(String cedulaLogin) {
+		this.cedulaLogin = cedulaLogin;
+	}
+
+	public String getContrasenaLogin() {
+		return contrasenaLogin;
+	}
+
+	public void setContrasenaLogin(String contrasenaLogin) {
+		this.contrasenaLogin = contrasenaLogin;
 	}
 
 }

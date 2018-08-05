@@ -25,6 +25,7 @@ import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleCarguePK;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.DetalleObligacion;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Obligacion;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Token;
+import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Trackingurl;
 import com.psicovirtual.procesos.modelo.ejb.entity.procesos.Usuario;
 
 /**
@@ -427,5 +428,16 @@ public class SBCargueArchivos implements SBCargueArchivosLocal {
 		return lista;
 
 	}
+	
+	
+	
+	
+	@Override
+	public Trackingurl guardarTRackingUrl(Trackingurl param) throws Exception {
+		Trackingurl entity = (Trackingurl) sbFacade.insertEntity(param);
+		return entity;
+	}
+
+	
 
 }
